@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="images/headphone.png" type="image/x-icon" />
+    <title>Trang chủ</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #f9f9f9, #e0e0f0, #c8d8f0, #f9f9f9);
+        background-size: 400% 400%;
+        animation: gradientBG 20s ease infinite;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      nav {
+        background-color: #333;
+        padding: 12px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .menu-left,
+      .menu-right {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      nav a:hover {
+        color: #ffd700;
+      }
+
+      .music-dropdown {
+        position: relative;
+      }
+
+      .music-dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #fff;
+        color: #333;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        min-width: 220px;
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      .music-dropdown:hover .music-dropdown-content {
+        display: block;
+      }
+
+      .music-dropdown-content h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: #444;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+      }
+
+      .music-dropdown-content ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .music-dropdown-content li {
+        margin: 10px 0;
+        font-size: 16px;
+      }
+
+      .music-dropdown-content li a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+        padding: 6px 10px;
+        border-radius: 6px;
+        transition: background-color 0.3s;
+      }
+
+      .music-dropdown-content li a:hover {
+        background-color: #f0f0f0;
+      }
+
+      .music-icon {
+        margin-right: 8px;
+        color: #7b68ee;
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 48px;
+      }
+
+      h2 {
+        text-align: center;
+        color: #666;
+        margin-top: -10px;
+      }
+
+      p {
+        text-align: center;
+        font-style: italic;
+      }
+
+      hr {
+        width: 80%;
+        margin: 30px auto;
+        border: none;
+        border-top: 1px solid #ccc;
+      }
+      img {
+        display: block;
+        margin: 0 auto 10px;
+        max-width: 90%;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="menu-left">
+        <a href="index.html">
+          <img
+            src="images/logo....png"
+            width="95px"
+            alt="Logo DuongBui"
+            class="logo"
+          />
+        </a>
+        <div class="music-dropdown">
+          <a href="#">List nhạc</a>
+          <div class="music-dropdown-content">
+            <h3>🎶 Tên ca sĩ</h3>
+            <ul>
+              <li>
+                <a href="list-nhac-sontung/nhacsontung.html">
+                  <span class="music-icon">🎵</span>Sơn Tùng M-TP
+                </a>
+              </li>
+              <li>
+                <a href="list-nhac-bray/nhacbray.html">
+                  <span class="music-icon">🎵</span>Bray
+                </a>
+              </li>
+              <hr />
+              <li>
+                <a href="list-nhac-tuchon/nhactuchon.html">
+                  <span class="music-icon">🎵</span>Nhạc tự chọn
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="menu-right">
+        <a href="more-info/contact.html" target="_blank">Contact</a>
+        <a href="more-info/intro.html" target="_blank">Giới thiệu</a>
+      </div>
+    </nav>
+
+    <h1>Music𝄞</h1>
+    <h2>By: DuongBui</h2>
+    <p>Creative Director and Designer - Giám đốc sáng tạo và nhà thiết kế</p>
+    <hr />
+    <img src="images/logo.png" alt="logo DuongBui" />
+    <hr />
+    <h2>Lời nói đầu</h2>
+    <p>
+      Xin chào các bạn! Mình là DuongBui, các bạn đang trải nghiệm trang nghe
+      nhạc do mình làm ra với một số tính năng mới do mình tự phát triển. Trang
+      web thiết kế mới ở giai đoạn đầu đang còn thử nghiệm nhiều thứ để mang lại
+      cho các bạn nhiều trải nghiệm tốt cũng như tính năng hữu dụng giúp bạn
+      nghe những bài nhạc yêu thích của bản thân. Mình mong nhận được những đánh
+      giá kể tiêu cực hay tích cực gửi đến email (
+      <a href="more-info/contact.html">Contact</a> )để ngày một cải thiện trang
+      web mình hơn. Giờ các bạn hãy vào phần list nhạc để nghe những bản nhạc
+      yêu thích nhé. Cuối cùng mình xin chúc các bạn có một trải nghiệm tốt
+      nhất.
+      <br />
+      SEE YOU AGAIN
+    </p>
+  </body>
+</html>

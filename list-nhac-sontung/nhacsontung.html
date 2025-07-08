@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../images/headphone.png" type="image/x-icon" />
+    <title>Playlist</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #f9f9f9, #e0e0f0, #c8d8f0, #f9f9f9);
+        background-size: 400% 400%;
+        animation: gradientBG 20s ease infinite;
+        margin: 0;
+        padding-bottom: 100px;
+        color: #333;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      nav {
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .menu-left,
+      .menu-right {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      nav a:hover {
+        color: #ffcc00;
+      }
+
+      .logo {
+        height: 45px;
+        width: auto;
+      }
+
+      .music-dropdown {
+        position: relative;
+      }
+
+      .music-dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: white;
+        color: #333;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        min-width: 200px;
+        z-index: 1000;
+      }
+
+      .music-dropdown:hover .music-dropdown-content {
+        display: block;
+      }
+
+      .music-dropdown-content a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+        padding: 5px 0;
+      }
+
+      .music-dropdown-content a:hover {
+        color: #1e3a8a;
+      }
+
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 20px;
+        gap: 30px;
+      }
+
+      .left,
+      .right {
+        border-radius: 20px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+
+      .left {
+        flex: 1;
+        min-width: 250px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .left img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .right {
+        flex: 2;
+        min-width: 300px;
+      }
+
+      .song-list {
+        list-style: none;
+        padding: 0;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .song-list li {
+        margin-bottom: 10px;
+        padding: 12px;
+        background-color: #f9fafb;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .song-list li:hover {
+        background-color: #dbeafe;
+      }
+
+      .song-list li.active {
+        background-color: #93c5fd;
+      }
+
+      .player-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #2c2f4a;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        height: 80px;
+      }
+
+      .player-left,
+      .player-center,
+      .player-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .player-left {
+        flex: 1;
+      }
+
+      .player-center {
+        flex: 2;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .player-center audio {
+        width: 100%;
+        max-width: 500px;
+      }
+
+      .player-right {
+        flex: 1;
+        justify-content: flex-end;
+      }
+
+      .player-left img {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      .player-title {
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .volume-icon {
+        cursor: pointer;
+      }
+
+      @media screen and (max-width: 768px) {
+        .player-bar {
+          flex-direction: column;
+          gap: 10px;
+          padding: 15px;
+          height: auto;
+        }
+
+        .player-center audio {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVIGATION -->
+    <nav>
+      <div class="menu-left">
+        <a href="../index.html">
+          <img src="../images/logo....png" alt="Logo DuongBui" class="logo" />
+        </a>
+        <div class="music-dropdown">
+          <a href="#">List nhạc</a>
+          <div class="music-dropdown-content">
+            <a href="nhacsontung.html">🎵 Sơn Tùng M-TP</a>
+            <a href="../list-nhac-bray/nhacbray.html">🎵 Bray</a>
+            <hr />
+            <a href="../list-nhac-tuchon/nhactuchon.html">🎵 Nhạc tự chọn</a>
+          </div>
+        </div>
+      </div>
+      <div class="menu-right">
+        <a href="../more-info/contact.html" target="_blank">Contact</a>
+        <a href="../more-info/intro.html" target="_blank">Giới thiệu</a>
+      </div>
+    </nav>
+
+    <!-- TITLE -->
+    <div style="text-align: center; margin: 30px 0">
+      <h1
+        style="
+          font-size: 2.5rem;
+          font-weight: bold;
+          background: linear-gradient(to right, #3b82f6, #60a5fa);
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 10px;
+        "
+      >
+        <h1>Playlist Sơn Tùng M-TP</h1>
+      </h1>
+      <p style="font-style: italic; color: #444">Những bài hát hay nhất</p>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+      <div class="left">
+        <img
+          src="../images/anhsontung.jpg"
+          height="400px"
+          alt="Sơn Tùng Playlist"
+        />
+      </div>
+      <div class="right">
+        <h2>Danh sách nhạc</h2>
+        <ul class="song-list"></ul>
+      </div>
+    </div>
+
+    <!-- PLAYER -->
+    <div class="player-bar">
+      <div class="player-left">
+        <img id="songThumbnail" src="../images/logo....png" alt="Ảnh bài hát" />
+        <div class="player-title" id="currentSong">Chưa chọn bài</div>
+      </div>
+      <div class="player-center">
+        <audio id="audioPlayer" controls>
+          <source src="" type="audio/mpeg" />
+          Trình duyệt của bạn không hỗ trợ audio.
+        </audio>
+      </div>
+      <div class="player-right">
+        <span class="volume-icon">🔊</span>
+      </div>
+    </div>
+
+    <script>
+      const songs = [
+        {
+          name: "Nơi Này Có Anh",
+          src: "audio/noinaycoanh.mp3",
+          image: "images/anh-noinaycoanh.jpg",
+        },
+        {
+          name: "Âm Thầm Bên Em",
+          src: "audio/AmThamBenEm-SonTungMTP-4066476.mp3",
+          image: "images/Sơn_Tùng_M-TP_-_Âm_thầm_bên_em.jpg",
+        },
+        {
+          name: "Anh Sai Rồi",
+          src: "audio/AnhSaiRoi.mp3",
+          image: "images/anh-anhsairoi.jpg",
+        },
+        {
+          name: "Em Đừng Đi",
+          src: "audio/em-dung-di.mp3",
+          image: "images/anh-emdungdi.jpg",
+        },
+      ];
+
+      const songListContainer = document.querySelector(".song-list");
+      const audioPlayer = document.getElementById("audioPlayer");
+      const currentSongTitle = document.getElementById("currentSong");
+      const songThumbnail = document.getElementById("songThumbnail");
+
+      let currentIndex = -1;
+
+      // Tạo danh sách nhạc
+      songs.forEach((song, index) => {
+        const li = document.createElement("li");
+        li.textContent = `🎵 ${song.name}`;
+        li.onclick = () => playSong(index);
+        songListContainer.appendChild(li);
+      });
+
+      function playSong(index) {
+        const song = songs[index];
+        audioPlayer.src = song.src;
+        audioPlayer.play();
+        currentSongTitle.textContent = song.name;
+        songThumbnail.src = song.image;
+        currentIndex = index;
+
+        document
+          .querySelectorAll(".song-list li")
+          .forEach((li) => li.classList.remove("active"));
+        document
+          .querySelectorAll(".song-list li")
+          [index].classList.add("active");
+      }
+
+      // Tự động chuyển bài tiếp theo
+      audioPlayer.addEventListener("ended", () => {
+        if (currentIndex < songs.length - 1) {
+          playSong(currentIndex + 1);
+        } else {
+          // Nếu hết playlist thì phát lại từ đầu
+          playSong(0);
+        }
+      });
+    </script>
+  </body>
+</html>
