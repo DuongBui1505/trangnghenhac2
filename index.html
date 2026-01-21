@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
@@ -143,6 +143,47 @@
         max-width: 90%;
         border-radius: 10px;
       }
+      /* ===== TITLE + NOTICE SÁT NHAU ===== */
+      .title-wrap {
+        display: flex;
+        justify-content: center; /* CẢ CỤM RA GIỮA */
+        align-items: center;
+        gap: 18px; /* khoảng cách Music ↔ khung */
+        margin-top: 40px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+      }
+
+      /* MUSIC */
+      .main-title {
+        font-size: 48px;
+        margin: 0;
+        white-space: nowrap;
+      }
+
+      /* KHUNG THÔNG BÁO */
+      .notice-box {
+        width: 190px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        font-size: 13px;
+      }
+
+      /* HEADER */
+      .notice-header {
+        background: #4b5cff;
+        color: white;
+        padding: 7px 10px;
+        font-weight: bold;
+        border-radius: 12px 12px 0 0;
+      }
+
+      /* CONTENT */
+      .notice-content {
+        padding: 8px 10px;
+        line-height: 1.5;
+      }
     </style>
   </head>
   <body>
@@ -187,7 +228,19 @@
       </div>
     </nav>
 
-    <h1>Music𝄞</h1>
+    <div class="title-wrap">
+      <h1 class="main-title">Music𝄞</h1>
+
+      <div class="notice-box">
+        <div class="notice-header">Thông báo</div>
+        <div class="notice-content">
+          • Website đang thử nghiệm<br />
+          • Update giao diện mới<br />
+          • Web bảo mật
+        </div>
+      </div>
+    </div>
+
     <h2>By: DuongBui</h2>
     <p>Creative Director and Designer - Giám đốc sáng tạo và nhà thiết kế</p>
     <hr />
