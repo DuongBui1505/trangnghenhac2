@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nhập mật khẩu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #f9f9f9, #e0e0f0, #c8d8f0, #f9f9f9);
+        background-size: 400% 400%;
+        animation: gradientBG 20s ease infinite;
+
+        margin: 0;
+        height: 100vh;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .login-box {
+        background: white;
+        padding: 32px 28px;
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        width: 340px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .login-box {
+        background: white;
+        padding: 30px;
+        border-radius: 14px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        width: 320px;
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        outline: none;
+      }
+
+      button {
+        margin-top: 15px;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #4b5cff;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #3846d6;
+      }
+
+      .error {
+        color: red;
+        margin-top: 10px;
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="login-box">
+      <h2>Nhập mật khẩu</h2>
+      <input type="password" id="password" placeholder="Mật khẩu truy cập" />
+      <button onclick="checkPassword()">Truy cập</button>
+      <div class="error" id="error">Mật khẩu sai hãy thử lại</div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const PASSWORD = "duongbui123"; // 🔑 ĐỔI MẬT KHẨU Ở ĐÂY
+        const inputPassword = document.getElementById("password");
+        const errorBox = document.getElementById("error");
+
+        function checkPassword() {
+          if (inputPassword.value === PASSWORD) {
+            localStorage.setItem("accessGranted", "true");
+            window.location.href = "index.html";
+          } else {
+            errorBox.style.display = "block";
+          }
+        }
+
+        // 👉 Click nút
+        window.checkPassword = checkPassword;
+
+        // 👉 Nhấn ENTER
+        inputPassword.addEventListener("keyup", function (event) {
+          if (event.key === "Enter" || event.keyCode === 13) {
+            checkPassword();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
