@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Media</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Toàn trang */
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #e0eafc, #cfdef3);
+        min-height: 100vh;
+      }
+
+      /* Phần đầu trang */
+      header {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px 40px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(6px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid #ccc;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 28px;
+        color: #333;
+      }
+
+      #upload {
+        margin-top: 12px;
+        font-size: 16px;
+      }
+
+      /* Gallery */
+      #gallery {
+        padding: 24px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 20px;
+      }
+
+      /* Ảnh và video trong gallery */
+      #gallery img,
+      #gallery video {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      #gallery img:hover,
+      #gallery video:hover {
+        transform: scale(1.03);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Lightbox */
+      #lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 15, 15, 0.9);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        flex-direction: column;
+      }
+
+      #lightbox.show {
+        display: flex;
+      }
+
+      #lightbox img,
+      #lightbox video {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      }
+
+      /* Nút đóng lightbox */
+      #close {
+        position: absolute;
+        top: 30px;
+        right: 40px;
+        font-size: 42px;
+        color: #fff;
+        cursor: pointer;
+        user-select: none;
+        z-index: 10000;
+        font-weight: bold;
+        transition: transform 0.2s ease;
+      }
+
+      #close:hover {
+        transform: scale(1.2);
+      }
+      #delete {
+        position: absolute;
+        top: 30px;
+        right: 100px;
+        font-size: 18px;
+        background-color: crimson;
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 10000;
+        transition: background-color 0.2s ease;
+      }
+
+      #delete:hover {
+        background-color: darkred;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>📷🎥 My Media</h1>
+      <input type="file" id="upload" accept="image/*,video/*" multiple />
+    </header>
+
+    <main>
+      <div id="gallery"></div>
+    </main>
+
+    <div id="lightbox">
+      <span id="close">&times;</span>
+    </div>
+
+    <script>
+      const uploadInput = document.getElementById("upload");
+      const gallery = document.getElementById("gallery");
+      const lightbox = document.getElementById("lightbox");
+
+      let db;
+
+      // 1️⃣ Mở IndexedDB
+      const request = indexedDB.open("MediaDB", 1);
+      request.onupgradeneeded = function (event) {
+        db = event.target.result;
+        if (!db.objectStoreNames.contains("media")) {
+          db.createObjectStore("media", { keyPath: "id", autoIncrement: true });
+        }
+      };
+      request.onsuccess = function (event) {
+        db = event.target.result;
+        loadMedia();
+      };
+      request.onerror = function () {
+        console.error("Không thể mở IndexedDB");
+      };
+
+      // 2️⃣ Khi người dùng chọn file
+      uploadInput.addEventListener("change", function () {
+        const files = [...this.files];
+
+        files.forEach((file) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const dataURL = e.target.result;
+            saveMedia(dataURL);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      // 3️⃣ Lưu media vào IndexedDB
+      function saveMedia(dataURL) {
+        const transaction = db.transaction(["media"], "readwrite");
+        const store = transaction.objectStore("media");
+        store.add({ data: dataURL });
+
+        transaction.oncomplete = () => loadMedia();
+      }
+
+      // 4️⃣ Tải media từ IndexedDB và hiển thị
+      function loadMedia() {
+        const transaction = db.transaction(["media"], "readonly");
+        const store = transaction.objectStore("media");
+        const request = store.getAll();
+
+        request.onsuccess = function (event) {
+          const mediaList = event.target.result;
+          gallery.innerHTML = "";
+          mediaList.forEach((item) => addToGallery(item));
+        };
+      }
+
+      // 5️⃣ Thêm media vào gallery
+      function addToGallery({ id, data }) {
+        let element;
+        if (data.startsWith("data:video")) {
+          element = document.createElement("video");
+          element.src = data;
+          element.muted = true;
+          element.playsInline = true;
+          element.loop = true;
+          element.autoplay = true;
+        } else {
+          element = document.createElement("img");
+          element.src = data;
+        }
+
+        element.addEventListener("click", () => openLightbox(id, data));
+        gallery.appendChild(element);
+      }
+
+      // 6️⃣ Lightbox
+      function openLightbox(id, src) {
+        lightbox.classList.add("show");
+
+        const isVideo = src.startsWith("data:video");
+        lightbox.innerHTML = `
+    <span id="close">&times;</span>
+    <button id="delete">🗑 Xoá</button>
+  `;
+
+        const media = document.createElement(isVideo ? "video" : "img");
+        media.src = src;
+        if (isVideo) {
+          media.controls = true;
+          media.autoplay = true;
+        }
+
+        lightbox.appendChild(media);
+
+        document.getElementById("close").addEventListener("click", () => {
+          lightbox.classList.remove("show");
+          lightbox.innerHTML = "";
+        });
+
+        document.getElementById("delete").addEventListener("click", () => {
+          deleteMedia(id);
+          lightbox.classList.remove("show");
+          lightbox.innerHTML = "";
+        });
+      }
+
+      // 7️⃣ Xoá media khỏi IndexedDB
+      function deleteMedia(id) {
+        const transaction = db.transaction(["media"], "readwrite");
+        const store = transaction.objectStore("media");
+        store.delete(id);
+
+        transaction.oncomplete = () => loadMedia();
+      }
+    </script>
+  </body>
+</html>
